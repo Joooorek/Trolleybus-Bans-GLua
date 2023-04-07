@@ -37,21 +37,21 @@ end
 
 function Trolleybus_Bans.KickUser(steamid, reason)
 
-    game.KickID(steamid, "Вы заблокировани системой банов по причине "..reason..". Подробнее на https://trolleybussystem.ru/")
+    game.KickID(util.SteamIDFrom64(steamid), "Вы заблокировани системой банов по причине "..reason..".")
 
 end
 
-hook.Add( "PlayerAuthed", "Trolleybus_Bans.Check", function(ply, steamid)
+hook.Add( "CheckPassword", "Trolleybus_Bans.Check", function(steamID64)
 
-    local Trolleybus_Bans_Data = Trolleybus_Bans.GetUser(util.SteamIDTo64(steamid))
+    local Trolleybus_Bans_Data = Trolleybus_Bans.GetUser(steamID64 )
 
     if Trolleybus_Bans_Data and Trolleybus_Bans_Data['result'] == true then
 
-        Trolleybus_Bans.KickUser(util.SteamIDTo64(steamid), Trolleybus_Bans_Data['reason'])
+        Trolleybus_Bans.KickUser(steamID64, Trolleybus_Bans_Data['reason'])
 
     else  
     
-        http.Fetch( "https://trolleybussystem.ru/api/check/".. util.SteamIDTo64(steamid),
+        http.Fetch( "https://trolleybussystem.ru/api/check/".. steamID64,
         
         function( body, length, headers, code )
             
@@ -59,11 +59,11 @@ hook.Add( "PlayerAuthed", "Trolleybus_Bans.Check", function(ply, steamid)
 
                 local Trolleybus_Bans_Data = util.JSONToTable(body)
 
-                Trolleybus_Bans.RegisterUser(util.SteamIDTo64(steamid),Trolleybus_Bans_Data)
+                Trolleybus_Bans.RegisterUser(steamID64,util.TableToJSON(Trolleybus_Bans_Data))
 
                 if Trolleybus_Bans_Data['result'] == true then
 
-                    Trolleybus_Bans.KickUser(util.SteamIDTo64(steamid), Trolleybus_Bans_Data['reason'])
+                    Trolleybus_Bans.KickUser(steamID64, Trolleybus_Bans_Data['reason'])
 
                 end
 
