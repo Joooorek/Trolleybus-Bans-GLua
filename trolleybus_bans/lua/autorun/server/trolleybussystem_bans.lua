@@ -2,9 +2,9 @@ Trolleybus_Bans = Trolleybus_Bans or {}
 
 hook.Add("InitPostEntity", "Trolleybus_Bans.CheckDirectory", function( ply )
 
-    if !file.Exists("trolleybussystem","DATA") then
+    if !file.Exists("trolleybussystem/bans/","DATA") then
     
-        file.CreateDir("trolleybussystem","DATA")
+        file.CreateDir("trolleybussystem/bans/","DATA")
 
     end
 
