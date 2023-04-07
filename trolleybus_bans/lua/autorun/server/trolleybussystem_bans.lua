@@ -16,6 +16,11 @@ function Trolleybus_Bans.GetUser(steamid)
 
         return null
 
+    elseif file.Time("trolleybussystem/bans/player_"..steamid..".json", "DATA") + 60 < os.time() then
+            
+        file.Delete("trolleybussystem/bans/player_"..steamid..".json", "DATA")
+        return null
+
     else
 
         return util.JSONToTable(file.Read("trolleybussystem/bans/player_" .. steamid ..".json","DATA"))
@@ -40,7 +45,7 @@ hook.Add( "PlayerAuthed", "Trolleybus_Bans.Check", function(ply, steamid)
 
     local Trolleybus_Bans_Data = Trolleybus_Bans.GetUser(util.SteamIDTo64(steamid))
 
-    if Trolleybus_Bans_Data['result'] == true then
+    if Trolleybus_Bans_Data and Trolleybus_Bans_Data['result'] == true then
 
         Trolleybus_Bans.KickUser(util.SteamIDTo64(steamid), Trolleybus_Bans_Data['reason'])
 
