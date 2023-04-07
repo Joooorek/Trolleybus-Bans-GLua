@@ -37,7 +37,7 @@ end
 
 function Trolleybus_Bans.KickUser(steamid, reason)
 
-    game.KickID(util.SteamIDFrom64(steamid), "Вы заблокированы системой банов по причине "..reason..". Подробнее на сайте https://trolleybussystem.ru/")
+    game.KickID(util.SteamIDFrom64(steamid), "Вы заблокированы глобальной системой банов по причине "..reason..". Подробнее на сайте https://trolleybussystem.ru/")
 
 end
 
